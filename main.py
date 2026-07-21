@@ -1,18 +1,15 @@
 import os
 from fastapi import FastAPI, HTTPException, Request
-from mistralai.client import MistralClient
-from mistralai.models.chat_completion import ChatMessage
-import json
+import requests
 
 app = FastAPI()
 
 # 1. SECURITY: We load the API key from the server's environment variables.
-api_key = os.environ.get("MISTRAL_API_KEY")
-if not api_key:
+MISTRAL_API_KEY = os.environ.get("MISTRAL_API_KEY")
+if not MISTRAL_API_KEY:
     raise ValueError("MISTRAL_API_KEY environment variable not set")
 
-# Initialize the Mistral client
-client = MistralClient(api_key=api_key)
+MISTRAL_API_URL = "https://api.mistral.ai/v1/chat/completions"
 
 # 2. THE STRICT COMPLIANCE PROMPT
 SYSTEM_PROMPT = """
@@ -32,25 +29,43 @@ You are the official AI assistant for CompliantFlow, an agency that builds GDPR 
 
 @app.post("/chat")
 async def chat(request: Request):
-    # Parse the JSON body manually
-    data = await request.json()
-    message = data.get("message", "")
-    history = data.get("history", [])
+    try:
+        data = await request.json()
+        message = data.get("message", "")
+        history = data.get("history", [])
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Invalid request format: {str(e)}")
     
     # Build the message history
-    messages = [ChatMessage(role="system", content=SYSTEM_PROMPT)]
+    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
     
     for msg in history:
-        messages.append(ChatMessage(role=msg["role"], content=msg["content"]))
+        messages.append({"role": msg["role"], "content": msg["content"]})
         
-    messages.append(ChatMessage(role="user", content=message))
+    messages.append({"role": "user", "content": message})
 
     try:
-        # Call the Mistral API
-        chat_response = client.chat(
-            model="open-mistral-nemo",
-            messages=messages,
-        )
-        return {"reply": chat_response.choices[0].message.content}
+        # Call the Mistral API directly via HTTP
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {MISTRAL_API_KEY}"
+        }
+        
+        payload = {
+            "model": "open-mistral-nemo",
+            "messages": messages,
+            "temperature": 0.7
+        }
+        
+        response = requests.post(MISTRAL_API_URL, headers=headers, json=payload, timeout=30)
+        response.raise_for_status()
+        
+        result = response.json()
+        reply = result["choices"][0]["message"]["content"]
+        
+        return {"reply": reply}
+        
+    except requests.exceptions.RequestException as e:
+        raise HTTPException(status_code=500, detail=f"Mistral API error: {str(e)}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
