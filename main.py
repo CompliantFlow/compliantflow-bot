@@ -1,8 +1,18 @@
 import os
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 import requests
 
 app = FastAPI()
+
+# --- CORS CONFIGURATION (Allow all origins for demo) ---
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, replace "*" with your specific domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # --- DEBUG STEP: Let's see exactly what Render is seeing ---
 print("--- RENDER ENVIRONMENT DEBUG ---")
