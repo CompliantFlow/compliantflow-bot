@@ -70,4 +70,191 @@
     background-color: #f9f9f9; display: flex; flex-direction: column; gap: 10px;
   }
   .cf-msg { padding: 10px 14px; border-radius: 12px; max-width: 80%; font-size: 14px; line-height: 1.4; }
-  .cf-bot {
+  .cf-bot { background-color: #e9ecef; color: #333; align-self: flex-start; border-bottom-left-radius: 2px; }
+  .cf-user { background-color: #0056b3; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+  .cf-typing { font-style: italic; color: #888; font-size: 12px; align-self: flex-start; margin-left: 10px; }
+
+  /* Input Area */
+  #cf-input-area {
+    display: flex; padding: 10px; border-top: 1px solid #e0e0e0; background: white;
+  }
+  #cf-input {
+    flex: 1; border: 1px solid #ccc; border-radius: 20px; padding: 10px 15px;
+    outline: none; font-size: 14px;
+  }
+  #cf-send {
+    background: #0056b3; color: white; border: none; border-radius: 50%;
+    width: 40px; height: 40px; margin-left: 10px; cursor: pointer; font-size: 18px;
+  }
+
+  /* GDPR Footer */
+  #cf-gdpr-footer {
+    font-size: 10px; color: #888; text-align: center; padding: 5px; background: #f0f0f0;
+  }
+
+  .features {
+    background: rgba(255,255,255,0.95);
+    padding: 30px;
+    border-radius: 12px;
+    margin-top: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  .features h2 {
+    color: #0056b3;
+    margin-bottom: 20px;
+  }
+  
+  .features ul {
+    list-style: none;
+    text-align: left;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .features li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    color: #333;
+  }
+  
+  .features li:before {
+    content: "✓ ";
+    color: #28a745;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🤖 CompliantFlow AI Demo</h1>
+  <p class="subtitle">Experience GDPR & EU AI Act-compliant chatbot technology</p>
+  
+  <div class="features">
+    <h2>What This Demo Shows:</h2>
+    <ul>
+      <li><strong>EU AI Act Compliance:</strong> Clear AI disclosure at start of conversation</li>
+      <li><strong>GDPR Data Minimization:</strong> Bot refuses to collect personal data</li>
+      <li><strong>EU Data Residency:</strong> All processing happens on Frankfurt servers</li>
+      <li><strong>Instant Responses:</strong> 24/7 automated customer support</li>
+      <li><strong>Knowledge-Based:</strong> Trained on CompliantFlow's services and pricing</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Floating Chat Button -->
+<button id="cf-chat-btn" onclick="toggleChat()">💬</button>
+
+<!-- Chat Window -->
+<div id="cf-chat-window">
+  <div id="cf-header">
+    <div>
+      CompliantFlow AI
+      <span id="cf-header-sub">EU AI Act Compliant Assistant</span>
+    </div>
+    <button onclick="toggleChat()" style="background:none; border:none; color:white; font-size:20px; cursor:pointer;">&times;</button>
+  </div>
+  
+  <div id="cf-messages">
+    <!-- Messages will appear here -->
+  </div>
+
+  <div id="cf-gdpr-footer">
+    🔒 Hosted in EU (Frankfurt). Please do not share sensitive personal data.
+  </div>
+
+  <div id="cf-input-area">
+    <input type="text" id="cf-input" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+    <button id="cf-send" onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script>
+  // --- CONFIGURATION ---
+  const API_URL = "https://compliantflow-api.onrender.com/chat";
+  let chatHistory = [];
+  let isChatOpen = false;
+  let hasGreeted = false;
+
+  function toggleChat() {
+    const chatWindow = document.getElementById('cf-chat-window');
+    isChatOpen = !isChatOpen;
+    chatWindow.style.display = isChatOpen ? 'flex' : 'none';
+    
+    // Send the mandatory EU AI Act greeting on first open
+    if (isChatOpen && !hasGreeted) {
+      addMessage("bot", "Hello! I am an AI assistant for CompliantFlow. How can I help you today?");
+      hasGreeted = true;
+    }
+  }
+
+  function handleKeyPress(e) {
+    if (e.key === 'Enter') sendMessage();
+  }
+
+  function addMessage(sender, text) {
+    const messagesDiv = document.getElementById('cf-messages');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `cf-msg cf-${sender}`;
+    msgDiv.textContent = text;
+    messagesDiv.appendChild(msgDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
+  function showTyping() {
+    const messagesDiv = document.getElementById('cf-messages');
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'cf-typing';
+    typingDiv.id = 'cf-typing-indicator';
+    typingDiv.textContent = 'AI is thinking...';
+    messagesDiv.appendChild(typingDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
+  function removeTyping() {
+    const typing = document.getElementById('cf-typing-indicator');
+    if (typing) typing.remove();
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('cf-input');
+    const text = input.value.trim();
+    if (!text) return;
+
+    // Add user message to UI and history
+    addMessage("user", text);
+    chatHistory.push({ role: "user", content: text });
+    input.value = '';
+
+    showTyping();
+
+    try {
+      // Call your Render API
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, history: chatHistory })
+      });
+
+      const data = await response.json();
+      removeTyping();
+
+      if (response.ok) {
+        const botReply = data.reply;
+        addMessage("bot", botReply);
+        chatHistory.push({ role: "assistant", content: botReply });
+      } else {
+        addMessage("bot", "Sorry, I encountered an error. Please try again later.");
+      }
+    } catch (error) {
+      removeTyping();
+      addMessage("bot", "Network error. Please check your connection.");
+      console.error(error);
+    }
+  }
+</script>
+
+</body>
+</html>
