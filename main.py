@@ -1,8 +1,8 @@
 import os
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException, Request
 from mistralai.client import MistralClient
 from mistralai.models.chat_completion import ChatMessage
+import json
 
 app = FastAPI()
 
@@ -30,19 +30,20 @@ You are the official AI assistant for CompliantFlow, an agency that builds GDPR 
 - All data is hosted on EU servers. We never use client data to train public AI models.
 """
 
-class ChatRequest(BaseModel):
-    message: str
-    history: list = []
-
 @app.post("/chat")
-async def chat(request: ChatRequest):
+async def chat(request: Request):
+    # Parse the JSON body manually
+    data = await request.json()
+    message = data.get("message", "")
+    history = data.get("history", [])
+    
     # Build the message history
     messages = [ChatMessage(role="system", content=SYSTEM_PROMPT)]
     
-    for msg in request.history:
+    for msg in history:
         messages.append(ChatMessage(role=msg["role"], content=msg["content"]))
         
-    messages.append(ChatMessage(role="user", content=request.message))
+    messages.append(ChatMessage(role="user", content=message))
 
     try:
         # Call the Mistral API
