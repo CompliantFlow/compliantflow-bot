@@ -43,6 +43,9 @@ You are the official AI assistant for CompliantFlow, an agency that builds GDPR 
 - All data is hosted on EU servers. We never use client data to train public AI models.
 """
 
+@app.get("/")
+def root():
+    return {"status": "CompliantFlow API is live and running!"}
 @app.post("/chat")
 async def chat(request: Request):
     try:
