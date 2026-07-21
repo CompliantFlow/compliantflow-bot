@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CompliantFlow - Live AI Chatbot Demo</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .container {
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  h1 {
+    color: white;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  }
+  
+  .subtitle {
+    color: rgba(255,255,255,0.9);
+    font-size: 1.2em;
+    margin-bottom: 40px;
+  }
+  
+  /* Floating Chat Button */
+  #cf-chat-btn {
+    position: fixed; bottom: 20px; right: 20px;
+    width: 60px; height: 60px; border-radius: 50%;
+    background-color: #0056b3; color: white; border: none;
+    font-size: 30px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 9999; display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s;
+  }
+  #cf-chat-btn:hover { transform: scale(1.1); }
+
+  /* Chat Window */
+  #cf-chat-window {
+    position: fixed; bottom: 90px; right: 20px;
+    width: 350px; height: 500px;
+    background: white; border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    z-index: 9999; display: none; flex-direction: column;
+    overflow: hidden; border: 1px solid #e0e0e0;
+  }
+
+  /* Header */
+  #cf-header {
+    background-color: #0056b3; color: white; padding: 15px;
+    font-weight: bold; font-size: 16px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  #cf-header-sub { font-size: 11px; font-weight: normal; opacity: 0.9; display: block; margin-top: 4px; }
+
+  /* Messages Area */
+  #cf-messages {
+    flex: 1; padding: 15px; overflow-y: auto;
+    background-color: #f9f9f9; display: flex; flex-direction: column; gap: 10px;
+  }
+  .cf-msg { padding: 10px 14px; border-radius: 12px; max-width: 80%; font-size: 14px; line-height: 1.4; }
+  .cf-bot {
