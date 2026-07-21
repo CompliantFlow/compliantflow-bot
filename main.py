@@ -6,11 +6,11 @@ from mistralai import Mistral
 app = FastAPI()
 
 # 1. SECURITY: We load the API key from the server's environment variables.
-# NEVER hardcode your API key directly in this file!
 api_key = os.environ.get("MISTRAL_API_KEY")
 if not api_key:
     raise ValueError("MISTRAL_API_KEY environment variable not set")
 
+# Initialize the Mistral client
 client = Mistral(api_key=api_key)
 
 # 2. THE STRICT COMPLIANCE PROMPT
@@ -46,7 +46,7 @@ async def chat(request: ChatRequest):
     try:
         # Call the Mistral API
         chat_response = client.chat.complete(
-            model="open-mistral-nemo", # A fast, highly capable, and cost-effective model
+            model="open-mistral-nemo",
             messages=messages,
         )
         return {"reply": chat_response.choices[0].message.content}
