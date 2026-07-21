@@ -1,7 +1,8 @@
 import os
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from mistralai import Mistral
+from mistralai.client import MistralClient
+from mistralai.models.chat_completion import ChatMessage
 
 app = FastAPI()
 
@@ -11,7 +12,7 @@ if not api_key:
     raise ValueError("MISTRAL_API_KEY environment variable not set")
 
 # Initialize the Mistral client
-client = Mistral(api_key=api_key)
+client = MistralClient(api_key=api_key)
 
 # 2. THE STRICT COMPLIANCE PROMPT
 SYSTEM_PROMPT = """
@@ -36,16 +37,16 @@ class ChatRequest(BaseModel):
 @app.post("/chat")
 async def chat(request: ChatRequest):
     # Build the message history
-    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+    messages = [ChatMessage(role="system", content=SYSTEM_PROMPT)]
     
     for msg in request.history:
-        messages.append({"role": msg["role"], "content": msg["content"]})
+        messages.append(ChatMessage(role=msg["role"], content=msg["content"]))
         
-    messages.append({"role": "user", "content": request.message})
+    messages.append(ChatMessage(role="user", content=request.message))
 
     try:
         # Call the Mistral API
-        chat_response = client.chat.complete(
+        chat_response = client.chat(
             model="open-mistral-nemo",
             messages=messages,
         )
