@@ -1,1 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | CompliantFlow</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        header { 
+            background: #ffffff; 
+            padding: 20px 5%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .logo-container { display: flex; align-items: center; }
+        .site-logo { max-height: 65px; width: auto; display: block; }
+        nav a { color: #3b5998; font-weight: 600; margin-left: 20px; }
+        
+        .contact-container { 
+            max-width: 800px; 
+            margin: 60px auto; 
+            background: white; 
+            padding: 60px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        h1 { 
+            color: #3b5998; 
+            font-size: 2.5em; 
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .intro { 
+            text-align: center; 
+            color: #555; 
+            font-size: 1.1em; 
+            margin-bottom: 40px;
+        }
+        .form-group { margin-bottom: 25px; }
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 600; 
+            color: #333;
+        }
+        input, textarea, select { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid #ddd; 
+            border-radius: 6px; 
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #3b5998;
+        }
+        textarea { min-height: 150px; resize: vertical; }
+        .submit-btn { 
+            background: #3b5998; 
+            color: white; 
+            padding: 16px 40px; 
+            border: none; 
+            border-radius: 6px; 
+            font-size: 1.1em; 
+            font-weight: 600; 
+            cursor: pointer; 
+            width: 100%;
+            transition: background 0.2s;
+        }
+        .submit-btn:hover { background: #2d4373; }
+        .contact-info {
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+        }
+        .contact-info p { margin: 10px 0; color: #555; }
+        .contact-info a { color: #3b5998; }
+        footer { 
+            background: #2c3e50; 
+            color: #ecf0f1; 
+            padding: 30px 5%; 
+            text-align: center;
+            margin-top: 80px;
+        }
+        .footer-links a { color: #ecf0f1; margin: 0 15px; }
+        .footer-links a:hover { color: #3498db; }
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .contact-container { padding: 30px; margin: 20px; }
+            h1 { font-size: 2em; }
+        }
+    </style>
+</head>
+<body>
 
+<header>
+    <div class="logo-container">
+        <img src="Logo.png" alt="CompliantFlow Logo" class="site-logo">
+    </div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="contact.html">Contact Us</a>
+    </nav>
+</header>
+
+<div class="contact-container">
+    <h1>Contact Us</h1>
+    <p class="intro">Ready to transform your customer support? Have questions about GDPR compliance? We're here to help.</p>
+    
+    <div id="success-message" class="success-message">
+        <strong>Thank you for your message!</strong><br>
+        We'll get back to you within 24 hours.
+    </div>
+
+    <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <div class="form-group">
+            <label for="name">Full Name *</label>
+            <input type="text" id="name" name="name" required placeholder="John Doe">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" required placeholder="john@company.com">
+        </div>
+
+        <div class="form-group">
+            <label for="company">Company Name</label>
+            <input type="text" id="company" name="company" placeholder="Your Company Ltd.">
+        </div>
+
+        <div class="form-group">
+            <label for="website">Website URL</label>
+            <input type="url" id="website" name="website" placeholder="https://yourshop.com">
+        </div>
+
+        <div class="form-group">
+            <label for="interest">I'm interested in *</label>
+            <select id="interest" name="interest" required>
+                <option value="">Please select...</option>
+                <option value="essential">Essential Launch Plan (€400/month)</option>
+                <option value="growth">Growth & Compliance Pro (€700/month)</option>
+                <option value="enterprise">Enterprise Solution</option>
+                <option value="demo">Request a Custom Demo</option>
+                <option value="compliance">GDPR/EU AI Act Compliance Questions</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="message">Your Message *</label>
+            <textarea id="message" name="message" required placeholder="Tell us about your webshop, your current support challenges, and how we can help..."></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Send Message</button>
+    </form>
+
+    <div class="contact-info">
+        <p><strong>Prefer email?</strong> Write to us at <a href="mailto:info@compliantflow.eu">info@compliantflow.eu</a></p>
+        <p><strong>Response time:</strong> We reply within 24 hours on business days</p>
+        <p><strong>Hosted securely in:</strong> Frankfurt, Germany 🇩🇪</p>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="index-terms.html">Terms and Conditions</a>
+        <a href="index-imprint.html">Imprint</a>
+    </div>
+    <p style="margin-top: 20px; opacity: 0.8;">&copy; 2024 CompliantFlow. All rights reserved.</p>
+</footer>
+
+<script>
+    // Handle form submission
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Show success message (you'll need to configure Formspree or similar service)
+        document.getElementById('success-message').style.display = 'block';
+        this.reset();
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+</script>
+
+</body>
+</html>
