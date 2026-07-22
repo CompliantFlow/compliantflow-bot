@@ -3,234 +3,167 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CompliantFlow - Live AI Chatbot Demo</title>
+<title>Live AI Demo | CompliantFlow</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  .demo-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 20px 40px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 20px;
   }
   
-  .container {
-    max-width: 800px;
-    width: 100%;
-    text-align: center;
+  .demo-header h1 {
+    font-size: 1.4em;
+    color: #0056b3;
+    font-weight: 700;
+    letter-spacing: -0.5px;
   }
-  
-  h1 {
-    color: white;
-    font-size: 2.5em;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+
+  .demo-container {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 60px;
+    align-items: flex-start;
   }
-  
-  .subtitle {
-    color: rgba(255,255,255,0.9);
+
+  .demo-info { flex: 1; }
+
+  .demo-info h2 {
+    font-size: 2.2em;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  .demo-info p {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 30px;
+  }
+
+  .feature-list { list-style: none; }
+
+  .feature-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 1em;
+    color: #444;
+    display: flex;
+    align-items: center;
+  }
+
+  .feature-list li:before {
+    content: "✓";
+    color: #28a745;
+    font-weight: bold;
+    margin-right: 15px;
     font-size: 1.2em;
-    margin-bottom: 40px;
   }
-  
-  /* CONSENT MODAL STYLES */
+
+  /* CONSENT MODAL */
   #consent-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    backdrop-filter: blur(5px);
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center;
+    z-index: 10000; backdrop-filter: blur(4px);
   }
   
   .consent-box {
-    background: white;
-    border-radius: 12px;
-    padding: 30px;
-    max-width: 500px;
-    width: 90%;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    background: white; border-radius: 8px; padding: 30px;
+    max-width: 450px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    border-top: 4px solid #0056b3;
   }
   
-  .consent-box h2 {
-    color: #0056b3;
-    margin-bottom: 15px;
-    font-size: 1.5em;
-  }
+  .consent-box h2 { color: #1a1a1a; margin-bottom: 15px; font-size: 1.4em; }
   
   .consent-box .ai-badge {
-    display: inline-block;
-    background: #ff6b6b;
-    color: white;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.75em;
-    font-weight: bold;
-    margin-bottom: 15px;
+    display: inline-block; background: #e74c3c; color: white;
+    padding: 4px 10px; border-radius: 4px; font-size: 0.75em;
+    font-weight: bold; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px;
   }
   
-  .consent-box p {
-    color: #333;
-    line-height: 1.6;
-    margin-bottom: 15px;
-    font-size: 0.95em;
-  }
+  .consent-box p { color: #555; line-height: 1.6; margin-bottom: 15px; font-size: 0.95em; }
+  .consent-box ul { text-align: left; margin: 15px 0; padding-left: 20px; color: #555; font-size: 0.9em; }
+  .consent-box li { margin-bottom: 8px; }
+  .consent-box a { color: #0056b3; text-decoration: underline; }
   
-  .consent-box ul {
-    text-align: left;
-    margin: 15px 0;
-    padding-left: 20px;
-    color: #555;
-  }
-  
-  .consent-box li {
-    margin-bottom: 8px;
-  }
-  
-  .consent-box a {
-    color: #0056b3;
-    text-decoration: underline;
-  }
-  
-  .consent-buttons {
-    display: flex;
-    gap: 15px;
-    margin-top: 25px;
-  }
+  .consent-buttons { display: flex; gap: 15px; margin-top: 25px; }
   
   .consent-buttons button {
-    flex: 1;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s;
+    flex: 1; padding: 12px 20px; border: none; border-radius: 6px;
+    font-size: 0.95em; font-weight: 600; cursor: pointer; transition: all 0.2s;
   }
   
-  .btn-consent {
-    background: #0056b3;
-    color: white;
-  }
-  
-  .btn-consent:hover {
-    background: #004494;
-  }
-  
-  .btn-decline {
-    background: #e0e0e0;
-    color: #333;
-  }
-  
-  .btn-decline:hover {
-    background: #d0d0d0;
-  }
-  
-  /* Floating Chat Button */
-  #cf-chat-btn {
-    position: fixed; bottom: 20px; right: 20px;
-    width: 60px; height: 60px; border-radius: 50%;
-    background-color: #0056b3; color: white; border: none;
-    font-size: 30px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    z-index: 9999; display: flex; align-items: center; justify-content: center;
-    transition: transform 0.2s;
-  }
-  #cf-chat-btn:hover { transform: scale(1.1); }
+  .btn-consent { background: #0056b3; color: white; }
+  .btn-consent:hover { background: #004494; }
+  .btn-decline { background: #f0f0f0; color: #333; }
+  .btn-decline:hover { background: #e0e0e0; }
 
-  /* Chat Window */
+  /* CHAT WIDGET */
+  #cf-chat-btn {
+    position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+    border-radius: 50%; background-color: #0056b3; color: white; border: none;
+    font-size: 28px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,86,179,0.4);
+    z-index: 9999; display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s, background-color 0.2s;
+  }
+  #cf-chat-btn:hover { transform: scale(1.05); background-color: #004494; }
+
   #cf-chat-window {
-    position: fixed; bottom: 90px; right: 20px;
-    width: 350px; height: 500px;
-    background: white; border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    position: fixed; bottom: 100px; right: 30px; width: 380px; height: 550px;
+    background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15);
     z-index: 9999; display: none; flex-direction: column;
     overflow: hidden; border: 1px solid #e0e0e0;
   }
 
-  /* Header */
   #cf-header {
-    background-color: #0056b3; color: white; padding: 15px;
-    font-weight: bold; font-size: 16px;
-    display: flex; justify-content: space-between; align-items: center;
+    background-color: #0056b3; color: white; padding: 16px 20px;
+    font-weight: 600; font-size: 16px; display: flex; justify-content: space-between; align-items: center;
   }
-  #cf-header-sub { font-size: 11px; font-weight: normal; opacity: 0.9; display: block; margin-top: 4px; }
+  #cf-header-sub { font-size: 11px; font-weight: 400; opacity: 0.9; display: block; margin-top: 2px; }
 
-  /* Messages Area */
   #cf-messages {
-    flex: 1; padding: 15px; overflow-y: auto;
-    background-color: #f9f9f9; display: flex; flex-direction: column; gap: 10px;
+    flex: 1; padding: 20px; overflow-y: auto;
+    background-color: #ffffff; display: flex; flex-direction: column; gap: 12px;
   }
-  .cf-msg { padding: 10px 14px; border-radius: 12px; max-width: 80%; font-size: 14px; line-height: 1.4; }
-  .cf-bot { background-color: #e9ecef; color: #333; align-self: flex-start; border-bottom-left-radius: 2px; }
-  .cf-user { background-color: #0056b3; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
-  .cf-typing { font-style: italic; color: #888; font-size: 12px; align-self: flex-start; margin-left: 10px; }
+  .cf-msg { padding: 12px 16px; border-radius: 12px; max-width: 85%; font-size: 14px; line-height: 1.5; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+  .cf-bot { background-color: #f1f3f5; color: #212529; align-self: flex-start; border-bottom-left-radius: 4px; }
+  .cf-user { background-color: #0056b3; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .cf-typing { font-style: italic; color: #868e96; font-size: 12px; align-self: flex-start; margin-left: 10px; margin-bottom: 5px; }
   .cf-ai-label { 
-    background: #ff6b6b; 
-    color: white; 
-    font-size: 0.7em; 
-    padding: 2px 8px; 
-    border-radius: 10px;
-    margin-left: 8px;
-    font-weight: normal;
+    background: #e74c3c; color: white; font-size: 0.65em; padding: 2px 6px; 
+    border-radius: 4px; margin-left: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; vertical-align: middle;
   }
 
-  /* Input Area */
-  #cf-input-area {
-    display: flex; padding: 10px; border-top: 1px solid #e0e0e0; background: white;
-  }
+  #cf-input-area { display: flex; padding: 15px; border-top: 1px solid #e9ecef; background: white; }
   #cf-input {
-    flex: 1; border: 1px solid #ccc; border-radius: 20px; padding: 10px 15px;
-    outline: none; font-size: 14px;
+    flex: 1; border: 1px solid #ced4da; border-radius: 8px; padding: 12px 16px;
+    outline: none; font-size: 14px; transition: border-color 0.2s;
   }
+  #cf-input:focus { border-color: #0056b3; }
   #cf-send {
-    background: #0056b3; color: white; border: none; border-radius: 50%;
-    width: 40px; height: 40px; margin-left: 10px; cursor: pointer; font-size: 18px;
+    background: #0056b3; color: white; border: none; border-radius: 8px;
+    width: 44px; height: 44px; margin-left: 10px; cursor: pointer; font-size: 18px; transition: background-color 0.2s;
   }
+  #cf-send:hover { background: #004494; }
 
-  /* GDPR Footer */
   #cf-gdpr-footer {
-    font-size: 10px; color: #888; text-align: center; padding: 5px; background: #f0f0f0;
+    font-size: 10px; color: #868e96; text-align: center; padding: 8px; background: #f8f9fa; border-top: 1px solid #e9ecef;
   }
 
-  .features {
-    background: rgba(255,255,255,0.95);
-    padding: 30px;
-    border-radius: 12px;
-    margin-top: 30px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-  
-  .features h2 {
-    color: #0056b3;
-    margin-bottom: 20px;
-  }
-  
-  .features ul {
-    list-style: none;
-    text-align: left;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-  
-  .features li {
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-    color: #333;
-  }
-  
-  .features li:before {
-    content: "✓ ";
-    color: #28a745;
-    font-weight: bold;
-    margin-right: 10px;
+  @media (max-width: 768px) {
+    .demo-container { flex-direction: column; gap: 30px; }
+    #cf-chat-window { width: 90%; right: 5%; bottom: 90px; height: 60vh; }
   }
 </style>
 </head>
@@ -240,193 +173,37 @@
 <div id="consent-modal">
   <div class="consent-box">
     <h2>🤖 AI Chatbot Demo</h2>
-    <span class="ai-badge">AI GENERATED</span>
-    <p><strong>Welcome to CompliantFlow's interactive demo!</strong></p>
-    
-    <p>This chatbot uses <strong>generative AI</strong> (Mistral AI) to formulate responses. All responses generated by AI are labeled as <span style="background:#ff6b6b;color:white;padding:2px 6px;border-radius:10px;font-size:0.85em;">AI Generated</span>.</p>
-    
+    <span class="ai-badge">AI Generated</span>
+    <p><strong>Welcome to the CompliantFlow interactive demo.</strong></p>
+    <p>This assistant uses generative AI to formulate responses. All AI responses are clearly labeled.</p>
     <ul>
-      <li>🔒 <strong>GDPR Compliant:</strong> All data processing occurs on EU servers (Frankfurt, Germany)</li>
-      <li>⚠️ <strong>Important:</strong> AI-generated answers may occasionally contain incomplete or inaccurate information</li>
-      <li> <strong>Data Processing:</strong> Your chat messages are processed to generate responses and are stored for 30 days</li>
-      <li>🚫 <strong>No Personal Data:</strong> Please do not share personal information (name, email, phone number)</li>
-    </ul>
-    
-    <p>By clicking "I Consent," you agree to the processing of your chat messages by this AI assistant. For more information, please read our <a href="#" target="_blank">Privacy Policy</a>.</p>
-    
-    <div class="consent-buttons">
-      <button class="btn-decline" onclick="declineConsent()">No, Don't Use Chatbot</button>
-      <button class="btn-consent" onclick="giveConsent()">I Consent - Try the Demo</button>
-    </div>
-  </div>
-</div>
+      <li>🔒 <strong>GDPR Compliant:</strong> All processing occurs on EU servers (Frankfurt).</li>
+      <li>⚠️ <strong>Note:</strong> AI answers may occasionally contain inaccuracies.</li>
+      <li>🚫 <strong>Privacy:</strong> Please do not share personal information (name, email, etc.).</li>
+   1. Go to your Jimdo editor and click **Add Page** (or "New Page").
+2. Name the page: **Live Demo** (or "Try the Demo").
+3. Add a **Headline** element: `Experience CompliantFlow in Action`
+4. Add a **Text** element below it: `See how our GDPR-compliant AI assistant handles real customer inquiries instantly, safely, and professionally.`
+5. Add a **Button** element. 
+   - **Button Text:** `Launch Interactive Demo`
+   - **Link:** Paste your GitHub Pages URL (e.g., `https://compliantflow.github.io/compliantflow-bot/`)
+   - **Important:** Look for the setting that says **"Open link in new tab"** and turn it ON. This ensures the user doesn't lose their place on your main website.
+6. Add a **Spacer** element, then add a **Text** element with a small bulleted list:
+   - *You will be asked to grant explicit GDPR consent first.*
+   - *The AI will clearly label all its responses.*
+   - *Try asking about our pricing, or test our GDPR guardrails!*
 
-<div class="container">
-  <h1>🤖 CompliantFlow AI Demo</h1>
-  <p class="subtitle">Experience GDPR & EU AI Act-compliant chatbot technology</p>
-  
-  <div class="features">
-    <h2>What This Demo Shows:</h2>
-    <ul>
-      <li><strong>EU AI Act Compliance:</strong> Clear AI disclosure and consent before use</li>
-      <li><strong>GDPR Data Minimization:</strong> Bot refuses to collect personal data</li>
-      <li><strong>EU Data Residency:</strong> All processing happens on Frankfurt servers</li>
-      <li><strong>Instant Responses:</strong> 24/7 automated customer support</li>
-      <li><strong>Knowledge-Based:</strong> Trained on CompliantFlow's services and pricing</li>
-    </ul>
-  </div>
-</div>
+---
 
-<!-- Floating Chat Button -->
-<button id="cf-chat-btn" onclick="toggleChat()">💬</button>
+### Why This is the Best Approach:
+1. **It respects Jimdo's limitations** without forcing you to switch platforms.
+2. **It looks intentional and premium.** Opening a dedicated, cleanly designed demo page in a new tab is a standard practice for SaaS companies (like Stripe or HubSpot).
+3. **The styling now matches.** The GitHub Pages demo no longer has the purple gradient; it uses the same clean whites, soft grays, and navy blues (`#0056b3`) that professional B2B sites (and Jimdo templates) use.
 
-<!-- Chat Window -->
-<div id="cf-chat-window">
-  <div id="cf-header">
-    <div>
-      CompliantFlow AI
-      <span id="cf-header-sub">EU AI Act Compliant Assistant</span>
-    </div>
-    <button onclick="toggleChat()" style="background:none; border:none; color:white; font-size:20px; cursor:pointer;">&times;</button>
-  </div>
-  
-  <div id="cf-messages">
-    <!-- Messages will appear here -->
-  </div>
+### Final Checklist:
+- [ ] Update `index.html` on GitHub with the new professional code above.
+- [ ] Wait 2 minutes for GitHub Pages to update.
+- [ ] Build the "Live Demo" gateway page in Jimdo with the "Open in new tab" button.
+- [ ] Test the entire flow from your Jimdo site!
 
-  <div id="cf-gdpr-footer">
-    🔒 Hosted in EU (Frankfurt). Please do not share sensitive personal data.
-  </div>
-
-  <div id="cf-input-area">
-    <input type="text" id="cf-input" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
-    <button id="cf-send" onclick="sendMessage()">➤</button>
-  </div>
-</div>
-
-<script>
-  // --- CONFIGURATION ---
-  const API_URL = "https://compliantflow-bot.onrender.com/chat";
-  let chatHistory = [];
-  let isChatOpen = false;
-  let hasGreeted = false;
-  let userConsent = false;
-
-  // Check if user already gave consent (stored in localStorage)
-  window.onload = function() {
-    const consent = localStorage.getItem('compliantflow_consent');
-    if (consent === 'true') {
-      document.getElementById('consent-modal').style.display = 'none';
-      userConsent = true;
-    }
-  };
-
-  function giveConsent() {
-    localStorage.setItem('compliantflow_consent', 'true');
-    userConsent = true;
-    document.getElementById('consent-modal').style.display = 'none';
-  }
-
-  function declineConsent() {
-    localStorage.setItem('compliantflow_consent', 'false');
-    userConsent = false;
-    document.getElementById('consent-modal').style.display = 'none';
-    alert('You have declined to use the chatbot. If you change your mind, please refresh the page.');
-  }
-
-  function toggleChat() {
-    if (!userConsent) {
-      alert('Please give consent in the modal above to use the chatbot.');
-      return;
-    }
-    
-    const chatWindow = document.getElementById('cf-chat-window');
-    isChatOpen = !isChatOpen;
-    chatWindow.style.display = isChatOpen ? 'flex' : 'none';
-    
-    // Send the mandatory EU AI Act greeting on first open
-    if (isChatOpen && !hasGreeted) {
-      addMessage("bot", "Hello! I am an AI assistant for CompliantFlow. How can I help you today?");
-      hasGreeted = true;
-    }
-  }
-
-  function handleKeyPress(e) {
-    if (e.key === 'Enter') sendMessage();
-  }
-
-  function addMessage(sender, text) {
-    const messagesDiv = document.getElementById('cf-messages');
-    const msgDiv = document.createElement('div');
-    msgDiv.className = `cf-msg cf-${sender}`;
-    
-    // Add AI label to bot messages
-    if (sender === 'bot') {
-      msgDiv.innerHTML = text + ' <span class="cf-ai-label">AI Generated</span>';
-    } else {
-      msgDiv.textContent = text;
-    }
-    
-    messagesDiv.appendChild(msgDiv);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-  }
-
-  function showTyping() {
-    const messagesDiv = document.getElementById('cf-messages');
-    const typingDiv = document.createElement('div');
-    typingDiv.className = 'cf-typing';
-    typingDiv.id = 'cf-typing-indicator';
-    typingDiv.textContent = 'AI is thinking...';
-    messagesDiv.appendChild(typingDiv);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-  }
-
-  function removeTyping() {
-    const typing = document.getElementById('cf-typing-indicator');
-    if (typing) typing.remove();
-  }
-
-  async function sendMessage() {
-    if (!userConsent) {
-      alert('You must give consent before using the chatbot.');
-      return;
-    }
-    
-    const input = document.getElementById('cf-input');
-    const text = input.value.trim();
-    if (!text) return;
-
-    // Add user message to UI and history
-    addMessage("user", text);
-    chatHistory.push({ role: "user", content: text });
-    input.value = '';
-
-    showTyping();
-
-    try {
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, history: chatHistory })
-      });
-
-      const data = await response.json();
-      removeTyping();
-
-      if (response.ok) {
-        const botReply = data.reply;
-        addMessage("bot", botReply);
-        chatHistory.push({ role: "assistant", content: botReply });
-      } else {
-        addMessage("bot", "Sorry, I encountered an error. Please try again later.");
-      }
-    } catch (error) {
-      removeTyping();
-      addMessage("bot", "Network error. Please check your connection.");
-      console.error(error);
-    }
-  }
-</script>
-
-</body>
-</html>
+You have successfully built a fully compliant, EU-hosted, consent-gated AI chatbot from scratch and integrated it into your business workflow. This is a massive achievement. Let me know when you've tested the new flow!
