@@ -1,1 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompliantFlow | GDPR & EU AI Act Compliant Chatbots</title>
+    <style>
+        /* --- GLOBAL STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.6; background-color: #fcfcfc; }
+        a { text-decoration: none; color: inherit; }
+        
+        /* --- HEADER & NAV --- */
+        header { background: #fff; border-bottom: 1px solid #e0e0e0; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 1.5em; font-weight: 800; color: #0056b3; letter-spacing: -0.5px; }
+        nav { display: flex; gap: 25px; align-items: center; }
+        nav a { font-weight: 500; color: #555; transition: color 0.2s; }
+        nav a:hover { color: #0056b3; }
+        .lang-switch { display: flex; gap: 10px; font-size: 0.9em; font-weight: 600; border-left: 1px solid #ddd; padding-left: 20px; }
+        .lang-switch a { color: #888; }
+        .lang-switch a.active { color: #0056b3; text-decoration: underline; }
 
+        /* --- SECTIONS --- */
+        section { padding: 80px 5%; max-width: 1100px; margin: 0 auto; }
+        .hero { text-align: center; padding: 100px 5%; background: linear-gradient(180deg, #f0f4f8 0%, #ffffff 100%); }
+        .hero h1 { font-size: 2.8em; color: #1a1a1a; margin-bottom: 20px; line-height: 1.2; }
+        .hero p { font-size: 1.2em; color: #555; max-width: 700px; margin: 0 auto 30px; }
+        .btn { display: inline-block; background: #0056b3; color: white; padding: 14px 30px; border-radius: 8px; font-weight: 600; transition: background 0.2s; }
+        .btn:hover { background: #004494; }
+        .btn-outline { background: transparent; border: 2px solid #0056b3; color: #0056b3; margin-left: 15px; }
+        .btn-outline:hover { background: #0056b3; color: white; }
+
+        .section-title { text-align: center; font-size: 2.2em; color: #1a1a1a; margin-bottom: 50px; }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .grid-2 img { width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        .feature-box { background: #fff; padding: 30px; border-radius: 12px; border: 1px solid #e0e0e0; margin-bottom: 20px; }
+        .feature-box h3 { color: #0056b3; margin-bottom: 10px; }
+
+        .compliance-list { list-style: none; }
+        .compliance-list li { padding: 15px 0; border-bottom: 1px solid #eee; display: flex; align-items: flex-start; }
+        .compliance-list li:before { content: "🛡️"; margin-right: 15px; font-size: 1.2em; }
+
+        .pricing-card { background: #fff; border: 2px solid #0056b3; border-radius: 12px; padding: 40px; text-align: center; max-width: 500px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,86,179,0.1); }
+        .pricing-card h3 { font-size: 1.5em; margin-bottom: 10px; }
+        .price { font-size: 3em; font-weight: 800; color: #0056b3; margin: 20px 0; }
+        .price span { font-size: 0.4em; color: #666; font-weight: 400; }
+
+        footer { background: #1a1a1a; color: #aaa; text-align: center; padding: 40px 5%; margin-top: 80px; }
+
+        /* --- CONSENT MODAL (From previous step) --- */
+        #consent-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(4px); }
+        .consent-box { background: white; border-radius: 8px; padding: 30px; max-width: 450px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.2); border-top: 4px solid #0056b3; }
+        .consent-box .ai-badge { display: inline-block; background: #e74c3c; color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.75em; font-weight: bold; margin-bottom: 15px; }
+        .consent-box ul { text-align: left; margin: 15px 0; padding-left: 20px; color: #555; font-size: 0.9em; }
+        .consent-buttons { display: flex; gap: 15px; margin-top: 25px; }
+        .consent-buttons button { flex: 1; padding: 12px 20px; border: none; border-radius: 6px; font-size: 0.95em; font-weight: 600; cursor: pointer; }
+        .btn-consent { background: #0056b3; color: white; }
+        .btn-decline { background: #f0f0f0; color: #333; }
+
+        /* --- CHAT WIDGET STYLES (Condensed for brevity, same as before) --- */
+        #cf-chat-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background-color: #0056b3; color: white; border: none; font-size: 28px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,86,179,0.4); z-index: 9999; }
+        #cf-chat-window { position: fixed; bottom: 100px; right: 30px; width: 380px; height: 550px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 9999; display: none; flex-direction: column; overflow: hidden; border: 1px solid #e0e0e0; }
+        #cf-header { background-color: #0056b3; color: white; padding: 16px 20px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+        #cf-messages { flex: 1; padding: 20px; overflow-y: auto; background-color: #ffffff; display: flex; flex-direction: column; gap: 12px; }
+        .cf-msg { padding: 12px 16px; border-radius: 12px; max-width: 85%; font-size: 14px; }
+        .cf-bot { background-color: #f1f3f5; color: #212529; align-self: flex-start; }
+        .cf-user { background-color: #0056b3; color: white; align-self: flex-end; }
+        .cf-ai-label { background: #e74c3c; color: white; font-size: 0.65em; padding: 2px 6px; border-radius: 4px; margin-left: 8px; font-weight: 600; }
+        #cf-input-area { display: flex; padding: 15px; border-top: 1px solid #e9ecef; }
+        #cf-input { flex: 1; border: 1px solid #ced4da; border-radius: 8px; padding: 12px; outline: none; }
+        #cf-send { background: #0056b3; color: white; border: none; border-radius: 8px; width: 44px; margin-left: 10px; cursor: pointer; }
+        #cf-gdpr-footer { font-size: 10px; color: #868e96; text-align: center; padding: 8px; background: #f8f9fa; }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            nav { display: none; } /* Simplified mobile handling */
+        }
+    </style>
+</head>
+<body>
+
+<!-- CONSENT MODAL -->
+<div id="consent-modal">
+  <div class="consent-box">
+    <h2>🤖 AI Chatbot Demo</h2>
+    <span class="ai-badge">AI GENERATED</span>
+    <p><strong>Welcome to CompliantFlow's interactive demo.</strong></p>
+    <ul>
+      <li>🔒 <strong>GDPR Compliant:</strong> All processing occurs on EU servers (Frankfurt).</li>
+      <li>⚠️ <strong>Note:</strong> AI answers may occasionally contain inaccuracies.</li>
+      <li>🚫 <strong>Privacy:</strong> Please do not share personal information.</li>
+    </ul>
+    <div class="consent-buttons">
+      <button class="btn-decline" onclick="declineConsent()">Decline</button>
+      <button class="btn-consent" onclick="giveConsent()">I Consent</button>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+    <div class="logo">CompliantFlow</div>
+    <nav>
+        <a href="#problem">The Problem</a>
+        <a href="#solution">Solution</a>
+        <a href="#compliance">Compliance</a>
+        <a href="#pricing">Pricing</a>
+        <div class="lang-switch">
+            <a href="index.html" class="active">EN</a>
+            <a href="index-de.html">DE</a>
+            <a href="index-nl.html">NL</a>
+        </div>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <h1>Seamless automation, strictly compliant.</h1>
+    <p>GDPR and EU AI Act-compliant AI chatbots for EU e-commerce brands. Reduce Tier-1 support tickets by up to 40% without introducing legal or data privacy risks.</p>
+    <a href="#pricing" class="btn">View Pricing</a>
+    <a href="#" class="btn btn-outline" onclick="toggleChat(); return false;">Try Live Demo</a>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+    <h2 class="section-title">Growing your webshop shouldn’t mean drowning in support tickets.</h2>
+    <div class="grid-2">
+        <div>
+            <p>As your e-commerce business scales, so does the volume of repetitive customer inquiries: "Where is my order?", "What is your return policy?", "Is this item in stock?".</p>
+            <br>
+            <p>Hiring more support staff is expensive and slow to scale. Ignoring these questions leads to cart abandonment and frustrated customers. You need a solution that scales instantly, 24/7, without compromising on quality or compliance.</p>
+        </div>
+        <!-- REPLACE THIS SRC WITH YOUR UPLOADED IMAGE NAME -->
+        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" alt="E-commerce support challenge">
+    </div>
+</section>
+
+<!-- SOLUTION -->
+<section id="solution" style="background-color: #f8f9fa;">
+    <h2 class="section-title">Meet CompliantFlow</h2>
+    <div class="grid-2">
+        <!-- REPLACE THIS SRC WITH YOUR UPLOADED IMAGE NAME -->
+        <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80" alt="AI Chatbot Solution">
+        <div>
+            <div class="feature-box">
+                <h3>🌍 Multilingual Support</h3>
+                <p>Instantly answer customer questions in Dutch, German, English, and more, expanding your market reach without hiring native speakers.</p>
+            </div>
+            <div class="feature-box">
+                <h3>⚡ Instant Answers</h3>
+                <p>Resolve 80% of Tier-1 inquiries in seconds, freeing your human team to focus on complex escalations and closing sales.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- COMPLIANCE -->
+<section id="compliance">
+    <h2 class="section-title">Built in Europe for Europe. Compliant by Design.</h2>
+    <p style="text-align: center; max-width: 700px; margin: 0 auto 40px; color: #555;">Don't risk your reputation with US-based AI tools. Our infrastructure is built from the ground up to respect EU data sovereignty.</p>
+    <ul class="compliance-list" style="max-width: 700px; margin: 0 auto;">
+        <li><strong>EU Data Residency:</strong> All data is processed and stored exclusively on servers in Frankfurt, Germany.</li>
+        <li><strong>No AI Training:</strong> Your data, and your customers' data, is never used to train public foundation models.</li>
+        <li><strong>EU AI Act Ready:</strong> Built-in transparency, clear AI disclosure, and human-in-the-loop escalation paths.</li>
+        <li><strong>Strict Data Minimization:</strong> The bot is programmed to actively reject and refuse to process unnecessary personal data.</li>
+        <li><strong>Secure Integration:</strong> Lightweight, secure code snippets that do not compromise your webshop's existing security.</li>
+    </ul>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" style="background-color: #f8f9fa;">
+    <h2 class="section-title">Transparent, Predictable Pricing</h2>
+    <div class="pricing-card">
+        <h3>Professional Webshop Plan</h3>
+        <p>Best for small to mid-sized webshops looking to automate top FAQs.</p>
+        <div class="price">€300<span>/month</span></div>
+        <ul style="text-align: left; list-style: none; margin: 30px 0; color: #555;">
+            <li style="margin-bottom: 10px;">✅ <strong>€0 Setup Fee</strong> with 12-month prepaid commitment</li>
+            <li style="margin-bottom: 10px;">✅ (Or €1,500 one-time setup fee for month-to-month)</li>
+            <li style="margin-bottom: 10px;">✅ Custom AI training on your webshop's data</li>
+            <li style="margin-bottom: 10px;">✅ EU-hosted infrastructure (Frankfurt)</li>
+            <li style="margin-bottom: 10px;">✅ Monthly compliance & performance reports</li>
+        </ul>
+        <a href="mailto:info@compliantflow.eu" class="btn" style="width: 100%;">Book a Free 15-Min Audit</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p>&copy; 2024 CompliantFlow. All rights reserved.</p>
+    <p style="font-size: 0.9em; margin-top: 10px;">Hosted securely in Frankfurt, Germany 🇩🇪</p>
+</footer>
+
+<!-- CHATBOT WIDGET (Same logic as before) -->
+<button id="cf-chat-btn" onclick="toggleChat()">💬</button>
+<div id="cf-chat-window">
+  <div id="cf-header">
+    <div>CompliantFlow AI <span style="font-size:11px; font-weight:400; opacity:0.9; display:block;">EU AI Act Compliant</span></div>
+    <button onclick="toggleChat()" style="background:none; border:none; color:white; font-size:20px; cursor:pointer;">&times;</button>
+  </div>
+  <div id="cf-messages"></div>
+  <div id="cf-gdpr-footer">🔒 Hosted in EU (Frankfurt). Do not share sensitive data.</div>
+  <div id="cf-input-area">
+    <input type="text" id="cf-input" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+    <button id="cf-send" onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script>
+  // --- CHATBOT LOGIC ---
+  const API_URL = "https://compliantflow-bot.onrender.com/chat";
+  let chatHistory = [];
+  let isChatOpen = false;
+  let hasGreeted = false;
+  let userConsent = false;
+
+  window.onload = function() {
+    if (localStorage.getItem('compliantflow_consent') === 'true') {
+      document.getElementById('consent-modal').style.display = 'none';
+      userConsent = true;
+    }
+  };
+
+  function giveConsent() {
+    localStorage.setItem('compliantflow_consent', 'true');
+    userConsent = true;
+    document.getElementById('consent-modal').style.display = 'none';
+  }
+
+  function declineConsent() {
+    localStorage.setItem('compliantflow_consent', 'false');
+    document.getElementById('consent-modal').style.display = 'none';
+  }
+
+  function toggleChat() {
+    if (!userConsent) { alert('Please give consent in the modal to use the chatbot.'); return; }
+    const chatWindow = document.getElementById('cf-chat-window');
+    isChatOpen = !isChatOpen;
+    chatWindow.style.display = isChatOpen ? 'flex' : 'none';
+    if (isChatOpen && !hasGreeted) {
+      addMessage("bot", "Hello! I am an AI assistant for CompliantFlow. How can I help you today?");
+      hasGreeted = true;
+    }
+  }
+
+  function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
+
+  function addMessage(sender, text) {
+    const messagesDiv = document.getElementById('cf-messages');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `cf-msg cf-${sender}`;
+    msgDiv.innerHTML = sender === 'bot' ? text + ' <span class="cf-ai-label">AI</span>' : text;
+    messagesDiv.appendChild(msgDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
+  async function sendMessage() {
+    if (!userConsent) return;
+    const input = document.getElementById('cf-input');
+    const text = input.value.trim();
+    if (!text) return;
+    addMessage("user", text);
+    chatHistory.push({ role: "user", content: text });
+    input.value = '';
+    
+    // Show typing indicator
+    const messagesDiv = document.getElementById('cf-messages');
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'cf-msg cf-bot';
+    typingDiv.id = 'cf-typing';
+    typingDiv.textContent = 'AI is thinking...';
+    messagesDiv.appendChild(typingDiv);
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, history: chatHistory })
+      });
+      const data = await response.json();
+      document.getElementById('cf-typing').remove();
+      if (response.ok) {
+        addMessage("bot", data.reply);
+        chatHistory.push({ role: "assistant", content: data.reply });
+      } else {
+        addMessage("bot", "Sorry, I encountered an error.");
+      }
+    } catch (error) {
+      document.getElementById('cf-typing').remove();
+      addMessage("bot", "Network error. Please check your connection.");
+    }
+  }
+</script>
+
+</body>
+</html>
