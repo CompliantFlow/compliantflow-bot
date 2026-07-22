@@ -7,51 +7,137 @@
     <style>
         /* --- GLOBAL STYLES --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.6; background-color: #fcfcfc; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            color: #333; 
+            line-height: 1.6; 
+            background-color: #fff;
+            overflow-x: hidden;
+        }
         a { text-decoration: none; color: inherit; }
         
         /* --- HEADER & NAV --- */
-        header { background: #fff; border-bottom: 1px solid #e0e0e0; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
-        .logo { font-size: 1.5em; font-weight: 800; color: #0056b3; letter-spacing: -0.5px; }
-        nav { display: flex; gap: 25px; align-items: center; }
-        nav a { font-weight: 500; color: #555; transition: color 0.2s; }
+        header { 
+            background: #ffffff; 
+            padding: 15px 5%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            box-shadow: 0 2px 15px rgba(0,0,0,0.04);
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .logo-container { display: flex; align-items: center; }
+        .site-logo { 
+            max-height: 40px; /* Adjust this number if your logo is too big/small */
+            width: auto; 
+            display: block;
+        }
+        nav { display: flex; gap: 30px; align-items: center; }
+        nav a { font-weight: 500; color: #444; font-size: 0.95em; transition: color 0.2s; }
         nav a:hover { color: #0056b3; }
-        .lang-switch { display: flex; gap: 10px; font-size: 0.9em; font-weight: 600; border-left: 1px solid #ddd; padding-left: 20px; }
+        .lang-switch { display: flex; gap: 12px; font-size: 0.85em; font-weight: 700; border-left: 1px solid #ddd; padding-left: 20px; }
         .lang-switch a { color: #888; }
-        .lang-switch a.active { color: #0056b3; text-decoration: underline; }
+        .lang-switch a.active { color: #0056b3; }
 
-        /* --- SECTIONS --- */
-        section { padding: 80px 5%; max-width: 1100px; margin: 0 auto; }
-        .hero { text-align: center; padding: 100px 5%; background: linear-gradient(180deg, #f0f4f8 0%, #ffffff 100%); }
-        .hero h1 { font-size: 2.8em; color: #1a1a1a; margin-bottom: 20px; line-height: 1.2; }
-        .hero p { font-size: 1.2em; color: #555; max-width: 700px; margin: 0 auto 30px; }
-        .btn { display: inline-block; background: #0056b3; color: white; padding: 14px 30px; border-radius: 8px; font-weight: 600; transition: background 0.2s; }
-        .btn:hover { background: #004494; }
-        .btn-outline { background: transparent; border: 2px solid #0056b3; color: #0056b3; margin-left: 15px; }
+        /* --- HERO SECTION (Integrated & Clean) --- */
+        .hero { 
+            background-color: #ffffff; 
+            padding: 100px 5% 80px; 
+            text-align: center;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .hero h1 { 
+            font-size: 3.2em; 
+            color: #0056b3; /* Blue headline to match your preference */
+            margin-bottom: 20px; 
+            line-height: 1.15; 
+            font-weight: 800; 
+            letter-spacing: -1px;
+        }
+        .hero p { 
+            font-size: 1.2em; 
+            color: #555; 
+            max-width: 750px; 
+            margin: 0 auto 40px; 
+        }
+        .btn { 
+            display: inline-block; 
+            background: #0056b3; 
+            color: white; 
+            padding: 14px 32px; 
+            border-radius: 8px; 
+            font-weight: 600; 
+            transition: all 0.2s; 
+            margin: 5px;
+            font-size: 1.05em;
+        }
+        .btn:hover { background: #004494; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,86,179,0.2); }
+        .btn-outline { background: transparent; border: 2px solid #0056b3; color: #0056b3; }
         .btn-outline:hover { background: #0056b3; color: white; }
 
-        .section-title { text-align: center; font-size: 2.2em; color: #1a1a1a; margin-bottom: 50px; }
+        /* --- ALTERNATING SECTIONS --- */
+        .section { padding: 80px 5%; }
+        .bg-white { background-color: #ffffff; }
+        .bg-light { background-color: #f8f9fa; }
         
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-        .grid-2 img { width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .container { max-width: 1100px; margin: 0 auto; }
         
-        .feature-box { background: #fff; padding: 30px; border-radius: 12px; border: 1px solid #e0e0e0; margin-bottom: 20px; }
-        .feature-box h3 { color: #0056b3; margin-bottom: 10px; }
+        .split-layout { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 60px; 
+            align-items: center; 
+        }
+        
+        .split-layout h2 { 
+            font-size: 2.2em; 
+            color: #0056b3; 
+            margin-bottom: 20px; 
+            line-height: 1.2;
+            font-weight: 700;
+        }
+        
+        .split-layout p { color: #555; font-size: 1.05em; margin-bottom: 15px; }
+        
+        /* Image styling and scroll animation */
+        .img-wrapper {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .img-wrapper.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .img-wrapper img { width: 100%; height: auto; display: block; }
 
-        .compliance-list { list-style: none; }
-        .compliance-list li { padding: 15px 0; border-bottom: 1px solid #eee; display: flex; align-items: flex-start; }
-        .compliance-list li:before { content: "🛡️"; margin-right: 15px; font-size: 1.2em; }
+        /* --- COMPLIANCE LIST --- */
+        .compliance-list { list-style: none; margin-top: 20px; }
+        .compliance-list li { 
+            padding: 15px 0; 
+            border-bottom: 1px solid #eee; 
+            display: flex; 
+            align-items: flex-start; 
+            color: #444;
+            font-size: 1.05em;
+        }
+        .compliance-list li:before { content: "🛡️"; margin-right: 15px; font-size: 1.1em; }
 
-        .pricing-card { background: #fff; border: 2px solid #0056b3; border-radius: 12px; padding: 40px; text-align: center; max-width: 500px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,86,179,0.1); }
-        .pricing-card h3 { font-size: 1.5em; margin-bottom: 10px; }
-        .price { font-size: 3em; font-weight: 800; color: #0056b3; margin: 20px 0; }
-        .price span { font-size: 0.4em; color: #666; font-weight: 400; }
+        /* --- FOOTER --- */
+        footer { background: #1a1a1a; color: #aaa; text-align: center; padding: 40px 5%; font-size: 0.9em; }
 
-        footer { background: #1a1a1a; color: #aaa; text-align: center; padding: 40px 5%; margin-top: 80px; }
-
-        /* --- CONSENT MODAL (From previous step) --- */
+        /* --- CHATBOT & CONSENT --- */
         #consent-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(4px); }
         .consent-box { background: white; border-radius: 8px; padding: 30px; max-width: 450px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.2); border-top: 4px solid #0056b3; }
+        .consent-box h2 { color: #1a1a1a; margin-bottom: 15px; font-size: 1.4em; }
         .consent-box .ai-badge { display: inline-block; background: #e74c3c; color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.75em; font-weight: bold; margin-bottom: 15px; }
         .consent-box ul { text-align: left; margin: 15px 0; padding-left: 20px; color: #555; font-size: 0.9em; }
         .consent-buttons { display: flex; gap: 15px; margin-top: 25px; }
@@ -59,8 +145,8 @@
         .btn-consent { background: #0056b3; color: white; }
         .btn-decline { background: #f0f0f0; color: #333; }
 
-        /* --- CHAT WIDGET STYLES (Condensed for brevity, same as before) --- */
-        #cf-chat-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background-color: #0056b3; color: white; border: none; font-size: 28px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,86,179,0.4); z-index: 9999; }
+        #cf-chat-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background-color: #0056b3; color: white; border: none; font-size: 28px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,86,179,0.4); z-index: 9999; transition: transform 0.2s; }
+        #cf-chat-btn:hover { transform: scale(1.05); }
         #cf-chat-window { position: fixed; bottom: 100px; right: 30px; width: 380px; height: 550px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 9999; display: none; flex-direction: column; overflow: hidden; border: 1px solid #e0e0e0; }
         #cf-header { background-color: #0056b3; color: white; padding: 16px 20px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
         #cf-messages { flex: 1; padding: 20px; overflow-y: auto; background-color: #ffffff; display: flex; flex-direction: column; gap: 12px; }
@@ -74,8 +160,10 @@
         #cf-gdpr-footer { font-size: 10px; color: #868e96; text-align: center; padding: 8px; background: #f8f9fa; }
 
         @media (max-width: 768px) {
-            .grid-2 { grid-template-columns: 1fr; }
-            nav { display: none; } /* Simplified mobile handling */
+            .split-layout { grid-template-columns: 1fr; gap: 30px; }
+            .split-layout.reverse { display: flex; flex-direction: column-reverse; }
+            nav { display: none; }
+            .hero h1 { font-size: 2.2em; }
         }
     </style>
 </head>
@@ -101,12 +189,14 @@
 
 <!-- HEADER -->
 <header>
-    <div class="logo">CompliantFlow</div>
+    <div class="logo-container">
+        <!-- IMPORTANT: Change 'logo.avif' to the exact name of your uploaded logo file -->
+        <img src="logo.avif" alt="CompliantFlow Logo" class="site-logo">
+    </div>
     <nav>
         <a href="#problem">The Problem</a>
         <a href="#solution">Solution</a>
         <a href="#compliance">Compliance</a>
-        <a href="#pricing">Pricing</a>
         <div class="lang-switch">
             <a href="index.html" class="active">EN</a>
             <a href="index-de.html">DE</a>
@@ -115,75 +205,60 @@
     </nav>
 </header>
 
-<!-- HERO -->
+<!-- HERO (Clean, Integrated Section) -->
 <section class="hero">
-    <h1>Seamless automation, strictly compliant.</h1>
-    <p>GDPR and EU AI Act-compliant AI chatbots for EU e-commerce brands. Reduce Tier-1 support tickets by up to 40% without introducing legal or data privacy risks.</p>
-    <a href="#pricing" class="btn">View Pricing</a>
-    <a href="#" class="btn btn-outline" onclick="toggleChat(); return false;">Try Live Demo</a>
+    <div class="container">
+        <h1>Seamless automation, strictly compliant.</h1>
+        <p>GDPR and EU AI Act-compliant AI chatbots for EU e-commerce brands. Reduce Tier-1 support tickets by up to 40% without introducing legal or data privacy risks.</p>
+        <a href="#solution" class="btn">Learn More</a>
+        <a href="#" class="btn btn-outline" onclick="toggleChat(); return false;">Try Live Demo</a>
+    </div>
 </section>
 
-<!-- PROBLEM -->
-<section id="problem">
-    <h2 class="section-title">Growing your webshop shouldn’t mean drowning in support tickets.</h2>
-    <div class="grid-2">
+<!-- PROBLEM (White Section, Text Left, Image Right) -->
+<section id="problem" class="section bg-white">
+    <div class="container split-layout">
         <div>
+            <h2>Growing your webshop shouldn’t mean drowning in support tickets.</h2>
             <p>As your e-commerce business scales, so does the volume of repetitive customer inquiries: "Where is my order?", "What is your return policy?", "Is this item in stock?".</p>
-            <br>
             <p>Hiring more support staff is expensive and slow to scale. Ignoring these questions leads to cart abandonment and frustrated customers. You need a solution that scales instantly, 24/7, without compromising on quality or compliance.</p>
         </div>
-        <!-- REPLACE THIS SRC WITH YOUR UPLOADED IMAGE NAME -->
-        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" alt="E-commerce support challenge">
-    </div>
-</section>
-
-<!-- SOLUTION -->
-<section id="solution" style="background-color: #f8f9fa;">
-    <h2 class="section-title">Meet CompliantFlow</h2>
-    <div class="grid-2">
-        <!-- REPLACE THIS SRC WITH YOUR UPLOADED IMAGE NAME -->
-        <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80" alt="AI Chatbot Solution">
-        <div>
-            <div class="feature-box">
-                <h3>🌍 Multilingual Support</h3>
-                <p>Instantly answer customer questions in Dutch, German, English, and more, expanding your market reach without hiring native speakers.</p>
-            </div>
-            <div class="feature-box">
-                <h3>⚡ Instant Answers</h3>
-                <p>Resolve 80% of Tier-1 inquiries in seconds, freeing your human team to focus on complex escalations and closing sales.</p>
-            </div>
+        <div class="img-wrapper scroll-animate">
+            <!-- REPLACE WITH YOUR IMAGE NAME -->
+            <img src="image-1.avif" alt="E-commerce support challenge">
         </div>
     </div>
 </section>
 
-<!-- COMPLIANCE -->
-<section id="compliance">
-    <h2 class="section-title">Built in Europe for Europe. Compliant by Design.</h2>
-    <p style="text-align: center; max-width: 700px; margin: 0 auto 40px; color: #555;">Don't risk your reputation with US-based AI tools. Our infrastructure is built from the ground up to respect EU data sovereignty.</p>
-    <ul class="compliance-list" style="max-width: 700px; margin: 0 auto;">
-        <li><strong>EU Data Residency:</strong> All data is processed and stored exclusively on servers in Frankfurt, Germany.</li>
-        <li><strong>No AI Training:</strong> Your data, and your customers' data, is never used to train public foundation models.</li>
-        <li><strong>EU AI Act Ready:</strong> Built-in transparency, clear AI disclosure, and human-in-the-loop escalation paths.</li>
-        <li><strong>Strict Data Minimization:</strong> The bot is programmed to actively reject and refuse to process unnecessary personal data.</li>
-        <li><strong>Secure Integration:</strong> Lightweight, secure code snippets that do not compromise your webshop's existing security.</li>
-    </ul>
+<!-- SOLUTION (Light Gray Section, Image Left, Text Right) -->
+<section id="solution" class="section bg-light">
+    <div class="container split-layout reverse">
+        <div class="img-wrapper scroll-animate">
+            <!-- REPLACE WITH YOUR IMAGE NAME -->
+            <img src="image-2.avif" alt="AI Chatbot Solution">
+        </div>
+        <div>
+            <h2>Meet CompliantFlow</h2>
+            <p>We build custom AI chatbots specifically designed for the strict regulatory environment of the European Union.</p>
+            <ul class="compliance-list">
+                <li><strong>Multilingual Support:</strong> Instantly answer customer questions in Dutch, German, English, and more.</li>
+                <li><strong>Instant Answers:</strong> Resolve 80% of Tier-1 inquiries in seconds, freeing your human team.</li>
+                <li><strong>Zero Data Risk:</strong> Your data never leaves EU servers, and is never used to train public AI models.</li>
+            </ul>
+        </div>
+    </div>
 </section>
 
-<!-- PRICING -->
-<section id="pricing" style="background-color: #f8f9fa;">
-    <h2 class="section-title">Transparent, Predictable Pricing</h2>
-    <div class="pricing-card">
-        <h3>Professional Webshop Plan</h3>
-        <p>Best for small to mid-sized webshops looking to automate top FAQs.</p>
-        <div class="price">€300<span>/month</span></div>
-        <ul style="text-align: left; list-style: none; margin: 30px 0; color: #555;">
-            <li style="margin-bottom: 10px;">✅ <strong>€0 Setup Fee</strong> with 12-month prepaid commitment</li>
-            <li style="margin-bottom: 10px;">✅ (Or €1,500 one-time setup fee for month-to-month)</li>
-            <li style="margin-bottom: 10px;">✅ Custom AI training on your webshop's data</li>
-            <li style="margin-bottom: 10px;">✅ EU-hosted infrastructure (Frankfurt)</li>
-            <li style="margin-bottom: 10px;">✅ Monthly compliance & performance reports</li>
+<!-- COMPLIANCE (White Section) -->
+<section id="compliance" class="section bg-white">
+    <div class="container" style="text-align: center; max-width: 800px;">
+        <h2 style="color: #0056b3; font-size: 2.2em; margin-bottom: 20px;">Built in Europe for Europe.</h2>
+        <p style="color: #555; font-size: 1.1em; margin-bottom: 30px;">Don't risk your reputation with US-based AI tools. Our infrastructure is built from the ground up to respect EU data sovereignty.</p>
+        <ul class="compliance-list" style="text-align: left; max-width: 600px; margin: 0 auto;">
+            <li><strong>EU Data Residency:</strong> All data is processed and stored exclusively on servers in Frankfurt, Germany.</li>
+            <li><strong>EU AI Act Ready:</strong> Built-in transparency, clear AI disclosure, and human-in-the-loop escalation paths.</li>
+            <li><strong>Strict Data Minimization:</strong> The bot is programmed to actively reject and refuse to process unnecessary personal data.</li>
         </ul>
-        <a href="mailto:info@compliantflow.eu" class="btn" style="width: 100%;">Book a Free 15-Min Audit</a>
     </div>
 </section>
 
@@ -193,7 +268,7 @@
     <p style="font-size: 0.9em; margin-top: 10px;">Hosted securely in Frankfurt, Germany 🇩🇪</p>
 </footer>
 
-<!-- CHATBOT WIDGET (Same logic as before) -->
+<!-- CHATBOT WIDGET -->
 <button id="cf-chat-btn" onclick="toggleChat()">💬</button>
 <div id="cf-chat-window">
   <div id="cf-header">
@@ -209,6 +284,17 @@
 </div>
 
 <script>
+  // --- SCROLL ANIMATION SCRIPT ---
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.scroll-animate').forEach((el) => observer.observe(el));
+
   // --- CHATBOT LOGIC ---
   const API_URL = "https://compliantflow-bot.onrender.com/chat";
   let chatHistory = [];
@@ -265,7 +351,6 @@
     chatHistory.push({ role: "user", content: text });
     input.value = '';
     
-    // Show typing indicator
     const messagesDiv = document.getElementById('cf-messages');
     const typingDiv = document.createElement('div');
     typingDiv.className = 'cf-msg cf-bot';
