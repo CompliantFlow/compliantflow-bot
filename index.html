@@ -147,7 +147,7 @@
 <body>
 
 <!-- CONSENT MODAL -->
-<div id="consent-modal">
+   <div id="consent-modal" style="display: none;">
   <div class="consent-box">
     <h2>🤖 AI Chatbot Demo</h2>
     <span class="ai-badge">AI GENERATED</span>
@@ -393,7 +393,11 @@
   }
 
   function toggleChat() {
-    if (!userConsent) { alert('Please give consent in the modal to use the chatbot.'); return; }
+    function toggleChat() {
+    if (!userConsent) { 
+        document.getElementById('consent-modal').style.display = 'flex'; 
+        return; 
+    }
     const chatWindow = document.getElementById('cf-chat-window');
     isChatOpen = !isChatOpen;
     chatWindow.style.display = isChatOpen ? 'flex' : 'none';
