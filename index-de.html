@@ -23,7 +23,7 @@
         /* --- HEADER & NAV --- */
         header { 
             background: #ffffff; 
-            padding: 15px 5%; 
+            padding: 25px 5%; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
@@ -34,7 +34,7 @@
         }
         .logo-container { display: flex; align-items: center; }
         .site-logo { 
-            max-height: 65px; /* Increased size for better visibility */
+            max-height: 120px; /* Increased size for better visibility */
             width: auto; 
             display: block; 
         }
@@ -147,7 +147,7 @@
 <body>
 
 <!-- CONSENT MODAL -->
-<div id="consent-modal">
+   <div id="consent-modal" style="display: none;">
   <div class="consent-box">
     <h2>🤖 AI Chatbot Demo</h2>
     <span class="ai-badge">AI GENERATED</span>
@@ -171,7 +171,7 @@
     </div>
     <nav>
         <a href="#">Home</a>
-        <a href="#contact">Contact Us</a>
+        <a href="contact.html">Contact Us</a>
         <a href="#" class="nav-btn" onclick="toggleChat(); return false;">Live Demo</a>
         <div class="lang-switch">
             <a href="index.html" class="active">EN</a>
@@ -345,7 +345,7 @@
         <a href="index-terms.html">Terms and Conditions</a>
         <a href="index-imprint.html">Imprint</a>
     </div>
-    <p style="margin-bottom: 10px;"> Email: <a href="mailto:info@compliantflow.eu" style="color: #3498db;">info@compliantflow.eu</a></p>
+    <p style="margin-bottom: 10px;">Email: <a href="mailto:info@compliantflow.eu" style="color: #3498db;">info@compliantflow.eu</a></p>
     <div class="footer-bottom">
         <p>&copy; 2024 CompliantFlow. All rights reserved.</p>
         <p>Hosted securely in Frankfurt, Germany 🇩🇪</p>
@@ -369,34 +369,46 @@
 
 <script>
   const API_URL = "https://compliantflow-bot.onrender.com/chat";
+      const LANGUAGE = "de";     
   let chatHistory = [];
   let isChatOpen = false;
   let hasGreeted = false;
   let userConsent = false;
 
   window.onload = function() {
+    // Check if user already gave consent
     if (localStorage.getItem('compliantflow_consent') === 'true') {
-      document.getElementById('consent-modal').style.display = 'none';
       userConsent = true;
     }
+    // Modal stays hidden by default (we set this in HTML)
   };
 
   function giveConsent() {
     localStorage.setItem('compliantflow_consent', 'true');
     userConsent = true;
     document.getElementById('consent-modal').style.display = 'none';
+    // Now open the chat window
+    toggleChat();
   }
 
   function declineConsent() {
     localStorage.setItem('compliantflow_consent', 'false');
+    userConsent = false;
     document.getElementById('consent-modal').style.display = 'none';
   }
 
   function toggleChat() {
-    if (!userConsent) { alert('Please give consent in the modal to use the chatbot.'); return; }
+    if (!userConsent) {
+      // Show the consent modal
+      document.getElementById('consent-modal').style.display = 'flex';
+      return;
+    }
+    
+    // User has consent, so open/close the chat window
     const chatWindow = document.getElementById('cf-chat-window');
     isChatOpen = !isChatOpen;
     chatWindow.style.display = isChatOpen ? 'flex' : 'none';
+    
     if (isChatOpen && !hasGreeted) {
       addMessage("bot", "Hello! I am an AI assistant for CompliantFlow. How can I help you today?");
       hasGreeted = true;
@@ -450,6 +462,5 @@
     }
   }
 </script>
-
 </body>
 </html>
