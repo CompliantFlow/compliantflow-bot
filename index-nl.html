@@ -446,7 +446,7 @@
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, history: chatHistory })
+        body: JSON.stringify({ message: text, history: chatHistory, language: LANGUAGE })
       });
       const data = await response.json();
       document.getElementById('cf-typing').remove();
