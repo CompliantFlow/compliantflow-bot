@@ -375,32 +375,39 @@
   let userConsent = false;
 
   window.onload = function() {
+    // Check if user already gave consent
     if (localStorage.getItem('compliantflow_consent') === 'true') {
-      document.getElementById('consent-modal').style.display = 'none';
       userConsent = true;
     }
+    // Modal stays hidden by default (we set this in HTML)
   };
 
   function giveConsent() {
     localStorage.setItem('compliantflow_consent', 'true');
     userConsent = true;
     document.getElementById('consent-modal').style.display = 'none';
+    // Now open the chat window
+    toggleChat();
   }
 
   function declineConsent() {
     localStorage.setItem('compliantflow_consent', 'false');
+    userConsent = false;
     document.getElementById('consent-modal').style.display = 'none';
   }
 
   function toggleChat() {
-    function toggleChat() {
-    if (!userConsent) { 
-        document.getElementById('consent-modal').style.display = 'flex'; 
-        return; 
+    if (!userConsent) {
+      // Show the consent modal
+      document.getElementById('consent-modal').style.display = 'flex';
+      return;
     }
+    
+    // User has consent, so open/close the chat window
     const chatWindow = document.getElementById('cf-chat-window');
     isChatOpen = !isChatOpen;
     chatWindow.style.display = isChatOpen ? 'flex' : 'none';
+    
     if (isChatOpen && !hasGreeted) {
       addMessage("bot", "Hello! I am an AI assistant for CompliantFlow. How can I help you today?");
       hasGreeted = true;
@@ -454,6 +461,5 @@
     }
   }
 </script>
-
 </body>
 </html>
