@@ -46,4 +46,40 @@
             margin-bottom: 12px; 
         }
         .imprint-details strong { 
-            color
+            color: #3b5998; 
+            display: inline-block; 
+            min-width: 180px; 
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 30px; margin: 20px; }
+            h1 { font-size: 1.8em; }
+            .imprint-details strong { 
+                display: block; 
+                min-width: auto; 
+                margin-bottom: 2px;
+                margin-top: 15px;
+            }
+            .imprint-details p { margin-bottom: 20px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <a href="index.html" class="back-link">← Back to Home</a>
+    <h1>Imprint</h1>
+    
+    <div class="imprint-details">
+        <p><strong>Company Name:</strong> Johan Venter</p>
+        <p><strong>Trading as:</strong> CompliantFlow</p>
+        <p><strong>Address:</strong> Lesenska 318, Zlin, 76314, Czechia</p>
+        <p><strong>Trading Licence:</strong> 72318031</p>
+        <p><strong>VAT ID:</strong> CZ7404163778</p>
+    </div>
+
+</div>
+
+</body>
+</html>
