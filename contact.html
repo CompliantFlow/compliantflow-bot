@@ -131,7 +131,8 @@
         We'll get back to you within 24 hours.
     </div>
 
-    <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <form id="contact-form" action="https://formsubmit.co/info@compliantflow.eu" method="POST">
+        <input type="hidden" name="_subject" value="New CompliantFlow Contact Form Submission!">
         <div class="form-group">
             <label for="name">Full Name *</label>
             <input type="text" id="name" name="name" required placeholder="John Doe">
@@ -188,20 +189,6 @@
     </div>
     <p style="margin-top: 20px; opacity: 0.8;">&copy; 2024 CompliantFlow. All rights reserved.</p>
 </footer>
-
-<script>
-    // Handle form submission
-    document.getElementById('contact-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Show success message (you'll need to configure Formspree or similar service)
-        document.getElementById('success-message').style.display = 'block';
-        this.reset();
-        
-        // Scroll to top
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-</script>
 
 </body>
 </html>
