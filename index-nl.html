@@ -354,20 +354,20 @@
 <button id="cf-chat-btn" onclick="toggleChat()">💬</button>
 <div id="cf-chat-window">
   <div id="cf-header">
-    <div>CompliantFlow AI <span style="font-size:11px; font-weight:400; opacity:0.9; display:block;">EU AI Act Ready</span></div>
+    <div>CompliantFlow AI <span style="font-size:11px; font-weight:400; opacity:0.9; display:block;">EU-AI-wet klaar</span></div>
     <button onclick="toggleChat()" style="background:none; border:none; color:white; font-size:20px; cursor:pointer;">&times;</button>
   </div>
   <div id="cf-messages"></div>
-  <div id="cf-gdpr-footer">🔒 Hosted in the EU (Frankfurt). Do not share personal or sensitive information.</div>
+  <div id="cf-gdpr-footer">🔒 Gehost in de EU (Frankfurt). Deel geen persoonlijke of gevoelige gegevens.</div>
   <div id="cf-input-area">
-    <input type="text" id="cf-input" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+    <input type="text" id="cf-input" placeholder="Typ hier je bericht..." onkeypress="handleKeyPress(event)">
     <button id="cf-send" onclick="sendMessage()">➤</button>
   </div>
 </div>
 
 <script>
   const API_URL = "https://compliantflow-bot.onrender.com/chat";
-      const LANGUAGE = "en";
+      const LANGUAGE = "nl";
   let chatHistory = [];
   let isChatOpen = false;
   let hasGreeted = false;
@@ -408,7 +408,7 @@
     chatWindow.style.display = isChatOpen ? 'flex' : 'none';
     
     if (isChatOpen && !hasGreeted) {
-      addMessage("bot", "Hello! I am an AI assistant for CompliantFlow. How can I help you today?");
+      addMessage("bot", "Hallo! Ik ben een AI-assistent voor CompliantFlow. Waarmee kan ik je vandaag helpen?");
       hasGreeted = true;
     }
   }
@@ -452,11 +452,11 @@
         addMessage("bot", data.reply);
         chatHistory.push({ role: "assistant", content: data.reply });
       } else {
-        addMessage("bot", "Sorry, I encountered an error.");
+        addMessage("bot", "Helaas, er is een fout opgetreden.");
       }
     } catch (error) {
       document.getElementById('cf-typing').remove();
-      addMessage("bot", "Network error. Please check your connection.");
+      addMessage("bot", "Netwerkfout. Controleer je verbinding.");
     }
   }
 </script>
